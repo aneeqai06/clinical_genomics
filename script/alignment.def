@@ -1,0 +1,19 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%post
+    apt-get update && apt-get install -y \
+        minimap2 \
+        samtools \
+        wget \
+        git \
+        build-essential \
+        zlib1g-dev
+
+    apt-get clean
+
+%environment
+    export PATH=/usr/bin:$PATH
+
+%runscript
+    exec "$@"

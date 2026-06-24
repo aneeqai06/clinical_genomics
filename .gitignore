@@ -1,0 +1,26 @@
+# Nextflow
+work/
+nextflow/work/
+.nextflow/
+
+# Input data
+nextflow/input/
+
+# Results
+nextflow/results/
+
+# Alignment/intermediate files
+*.sam
+*.bam
+*.bai
+
+# Variant files
+*.vcf
+*.vcf.gz
+
+# Containers
+*.sif
+
+# OS files
+.DS_Store
+.nextflow.log*
