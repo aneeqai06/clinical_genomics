@@ -1,26 +1,26 @@
-# Nextflow
+# Nextflow runtime
 work/
-nextflow/work/
 .nextflow/
+.nextflow*
+.nextflow.log*
 
-# Input data
+# Input data (usually large)
 nextflow/input/
 
-# Results
+# Results (OPTIONAL: uncomment if you want to keep final outputs)
 nextflow/results/
 
-# Alignment/intermediate files
+# Intermediate alignment files
 *.sam
 *.bam
 *.bai
 
-# Variant files
-*.vcf
-*.vcf.gz
+# Variant files (optional - better to keep final results instead)
+# *.vcf
+# *.vcf.gz
 
 # Containers
 *.sif
 
 # OS files
 .DS_Store
-.nextflow.log*

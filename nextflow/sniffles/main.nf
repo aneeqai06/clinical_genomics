@@ -6,7 +6,7 @@ params.ref   = "nextflow/input/hg38.fa"
 
 process ALIGN {
 
-    container "${projectDir}/containers/alignment.sif"
+    container "${projectDir}/../containers/alignment.sif"
 
     input:
     path fastq
@@ -21,9 +21,10 @@ process ALIGN {
     """
 }
 
+
 process SAMTOOLS_SORT {
 
-    container "${projectDir}/containers/alignment.sif"
+    container "${projectDir}/../containers/alignment.sif"
 
     input:
     path sam
@@ -37,9 +38,11 @@ process SAMTOOLS_SORT {
     samtools index sorted.bam
     """
 }
+
+
 process SNIFFLES {
 
-    container "${projectDir}/containers/sniffles.sif"
+    container "${projectDir}/../containers/sniffles.sif"
 
     input:
     tuple path(bam), path(bai)
@@ -59,9 +62,9 @@ workflow {
     fastq_ch = Channel.fromPath(params.reads)
     ref_ch   = Channel.fromPath(params.ref)
 
-    align_ch  = ALIGN(fastq_ch, ref_ch)
+    align_ch = ALIGN(fastq_ch, ref_ch)
 
-    sorted_ch = SAMTOOLS_SORT(align_ch)
+    sort_ch  = SAMTOOLS_SORT(align_ch)
 
-    SNIFFLES(sorted_ch)
+    SNIFFLES(sort_ch)
 }
