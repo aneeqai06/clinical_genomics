@@ -1,36 +1,30 @@
-# Clinical Genomics Structural Variant Pipeline
+# Clinical Genomics Pipeline
 
-## Overview
+A modular Nextflow-based clinical genomics pipeline for long-read sequencing data. This repository provides two alternative workflows:
 
-This project implements a structural variant (SV) calling pipeline using Nextflow and Apptainer/Singularity containers.
+* **Sniffles** – Structural Variant (SV) calling
+* **Clair3** – SNP and INDEL calling
 
-The workflow:
-
-1. Aligns PacBio HiFi reads to the human reference genome using Minimap2.
-2. Converts and sorts alignments using Samtools.
-3. Calls structural variants using Sniffles2.
-4. Produces a VCF file containing detected structural variants.
+Both workflows share the same alignment and BAM preprocessing steps while using different variant callers.
 
 ---
 
-## Pipeline Workflow
-
-FASTQ → Minimap2 → SAMtools Sort/Index → Sniffles2 → VCF
-
----
-
-## Directory Structure
+## Repository Structure
 
 ```text
 clinical_genomics/
 ├── nextflow/
-│   └── main.nf
+│   ├── clair3/
+│   │   └── main.nf
+│   └── sniffles/
+│       └── main.nf
 ├── script/
 │   ├── alignment.def
 │   └── sniffles.def
 ├── shell/
 │   └── run_pipeline.sh
-└── .gitignore
+├── .gitignore
+└── README.md
 ```
 
 ---
@@ -38,56 +32,58 @@ clinical_genomics/
 ## Requirements
 
 * Nextflow
-* Apptainer/Singularity
-* Minimap2
-* Samtools
-* Sniffles2
-
-Container definitions are provided in:
-
-* script/alignment.def
-* script/sniffles.def
+* Apptainer (or Singularity)
+* Linux or WSL
 
 ---
 
-## Input Files
+## Input Data
 
-Required input files:
-
-* Human reference genome (hg38.fa)
-* PacBio HiFi FASTQ file
-
-Place input files in the input directory specified in the pipeline configuration.
+Input sequencing reads and the reference genome are **not included** in this repository. Users should provide their own FASTQ files and reference genome before running the workflows.
 
 ---
 
-## Running the Pipeline
+## Containers
 
-Execute:
+Apptainer (`.sif`) container images are **not included** because they are large binary files and are excluded from version control.
+
+Build the required containers from the provided definition files or obtain compatible container images before running the pipelines.
+
+---
+
+## Running the Pipelines
+
+Run the Sniffles workflow:
 
 ```bash
-bash shell/run_pipeline.sh
+bash shell/run_pipeline.sh sniffles
 ```
 
-Or run Nextflow directly:
+Run the Clair3 workflow:
 
 ```bash
-nextflow run nextflow/main.nf -with-apptainer
+bash shell/run_pipeline.sh clair3
 ```
+
+---
+
+## Workflow Overview
+
+Both workflows perform:
+
+1. Read alignment using Minimap2
+2. BAM sorting and indexing using Samtools
+3. Variant calling
+
+   * **Sniffles** for structural variants
+   * **Clair3** for SNP and INDEL detection
 
 ---
 
 ## Output
 
-The pipeline generates:
+* **Sniffles:** Variant Call Format (VCF) file containing structural variants.
+* **Clair3:** Compressed VCF (`merge_output.vcf.gz`) containing SNP and INDEL calls.
 
-* Sorted and indexed BAM files
-* Structural variant calls in VCF format
-
----
-
-## Author
-
-Aneeqa
-Clinical Genomics Project
+Intermediate files, generated outputs, containers, and Nextflow work directories are excluded from version control via `.gitignore`.
 
