@@ -1,21 +1,21 @@
 # Nextflow runtime
-work/
+genomic_pipeline/work/
 .nextflow/
 .nextflow*
 .nextflow.log*
 
-# Input data (usually large)
-nextflow/input/
+# Input data
+genomic_pipeline/nextflow/input/
 
-# Results (OPTIONAL: uncomment if you want to keep final outputs)
-nextflow/results/
+# Results
+genomic_pipeline/nextflow/results/
 
 # Intermediate alignment files
 *.sam
 *.bam
 *.bai
 
-# Variant files (optional - better to keep final results instead)
+# Variant files (optional)
 # *.vcf
 # *.vcf.gz
 
